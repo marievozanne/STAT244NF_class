@@ -1,0 +1,28 @@
+---
+title: 'Class Activity: Introduction to Infectious Disease Modeling'
+subtitle: "STAT 244NF: Infectious Disease Modeling"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Agent X
+
+## Questions (2 pages)
+
+### 1. Suppose that you and your team learn about a new pathogen, which we will call Agent X. You are tasked with brainstorming characteristics of the disease that will be important to quantify to understand the behavior of the disease and determine public health action. You are not expected to use technical language for this exercise. We will tie your thoughts to formal vocabulary and definitions in the next class and throughout the semester. 
+
+- You should come up at least five characteristics and should be prepared to share them with the class. 
+- Please designate a note taker for your group and designate someone who will verbally report characteristics from the list to the class.
+
+\newpage
+
+
+
+
+
+
+
+### 2. As a class, we have developed a list (hereafter in this exercise referred to as "the class list") based on Question 1 that contains characteristics that will be directly relevant in this course. This is not necessarily an exhaustive list of the characteristics shared by the groups in Question 1, since some may be outside the scope of this course material. For three of the characteristics on the class list, brainstorm what data you would need to observe to provide some understanding of what these characteristics are. We will revisit these answers later when we have more information about infectious diseases, the types of data we can get, and how these characteristics are estimated empirically (from data only) and models.
