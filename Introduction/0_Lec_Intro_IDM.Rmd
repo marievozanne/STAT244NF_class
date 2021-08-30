@@ -1,0 +1,37 @@
+---
+title: "Welcome to STAT 244NF: Infectious Disease Modeling"
+subtitle: ""
+author: "Marie Ozanne"
+date: "8/31/2021"
+output: beamer_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Class Plan
+
+- Welcome, introductions, and ice-breaker
+- Class overview and syllabus
+- Class activity: "Agent X"
+- R and RStudio (time permitting)
+
+## Welcome, introductions, and ice-breaker
+
+When it is your turn, please share the following information:
+
+- Name and preferred pronouns
+- Class year
+- Infectious disease you are most interested in studying
+
+## Class activity: "Agent X"
+
+Paper copies of the class activity will be given to you. If you wish to access an electronic copy, please visit the calendar on the class website: https://marievozanne.github.io/STAT244NF/calendar/ and click on Class Activity: "Agent X" under today's date.
+
+Summaries of our discussion of this activity will be posted to the class website after class.
+
+## R and RStudio
+
+If there is time at the end of class, we will spend a few minutes making sure that those who want R downloaded on their computers (but do not have it downloaded yet) can get it downloaded, and that everyone can access the RStudio server.
+
