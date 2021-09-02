@@ -1,0 +1,206 @@
+---
+title: "Epidemiological Data for Diseases"
+subtitle: "STAT 244NF: Infectious Disease Modeling"
+author: "Marie Ozanne"
+date: "9/2/2021"
+output: beamer_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(outbreaks)
+library(ggplot2)
+```
+
+## What is Epidemiology?
+
+Epidemiology is defined as "the study of the distribution and determinants of health-related states or events in specified populations, and the application of this study to the control of health problems."
+
+In this class, we will primarily focus on the distribution and determinants of infectious or disease events in populations that will change depending on the example and data we are considering. 
+
+# Descriptive Epidemiology
+
+## Descriptive Epidemiology
+
+Descriptive epidemiology is concerned with comprehensively characterizing an epidemiological event. In our case, this is going to be an infection or disease case. To do this, we want to know:
+
+- Time
+- Place 
+- Person
+
+## Descriptive Epidemiology: Time
+
+- Long-term trends
+  - Graph annual cases or rates over a period of years to show long-term trends
+  - Used to assess overall direction of the disease (increasing? decreasing? no change?)
+
+- Seasonality
+  - Graph cases or rates by week or month over the course of a year to show any seasonal patterns
+  - Seasonal patterns may lend insight into how the infection is spread (mode of transmission), behaviors associated with increased risk, or other contributors to disease
+  
+- Epidemic period
+  - Time course of a disease outbreak/epidemic is graphed in an *epidemic curve*
+  - Shape and other features can suggest information about exposure time/source, transmission mode, cause
+
+## Descriptive Epidemiology: Long-term trends (Time)
+
+\begin{figure}
+\includegraphics[scale=0.4]{salmonellosis_rate_longterm_trends.png}
+\end{figure}
+
+## Descriptive Epidemiology: Seasonality (Time)
+
+\begin{figure}
+\includegraphics[scale=0.4]{rubella_influenza_rotavirus_seasonality.png}
+\end{figure}
+
+## Descriptive Epidemiology: Epidemic Period (Time)
+
+```{r echo=FALSE, fig.align='center', fig.height=2, fig.width=3}
+data("dengue_fais_2011")
+
+ggplot(data=dengue_fais_2011, aes(x=onset_date, y=value)) + 
+  geom_col() + 
+  theme_bw() + 
+  xlab("Date of Symptom Onset") + 
+  ylab("Number of Cases")
+```
+
+
+## Descriptive Epidemiology: Place
+
+- Disease incidence location information provides insight into the extent of the problem and variation over space
+- Place may mean residence, or other relevant information, like employment site, school, hospital, travel destinations
+- Place may be large, like country or state, or small, like street address
+- Place may be more vague, like urban/rural, domestic/foreign, etc.
+
+## Descriptive Epidemiology: Place
+
+### Cholera (addresses)
+\begin{figure}
+\includegraphics[scale=0.4]{john_snow_cholera_map.png}
+\end{figure}
+
+### [COVID-19 (US county-level)](https://www.npr.org/sections/health-shots/2021/07/28/1021795290/cdc-mask-guidelines-indoors-vaccinated-by-county-covid-spread)
+
+## Descriptive Epidemiology: Person
+
+- **Age**
+- **Sex** (historically a binary variable)
+  - Used as a proxy for genetic, hormonal, and anatomic factors
+- Biologic factors like immune status
+- Race/ethnicity; nationality; religion; other social groups
+  - Used as proxy for susceptibility and exposure
+- Socioeconomic status
+  - Hard to quantify
+  - May be described by occupation, family income, educational level, census track
+
+# Epidemiological Studies
+
+## Types of Studies
+
+- Experimental Studies (Experiments)
+- **Observational Studies**
+
+## Experimental Studies (Experiments)
+
+An investigator randomly assigns individuals or communities exposure to some agent (e.g., a vaccine) and tracks the individuals or communities over time to determine the effects of the exposure.
+
+- Clinical trial: individual exposure is determined in a controlled and randomized way and tracked over time to detect effects of exposure (e.g., vaccine trial); control group is included (think placebo group)
+- Community trial: like a clinical trial, but using a community rather than an individual
+
+Note, we will not spend that much time with experimental studies in this class -- *most data will be from observational studies*
+
+## Observational Studies
+
+- Cohort study
+  - Follow-up/Prospective
+  - **Retrospective**
+- Case-control study
+- Cross-sectional study
+
+## Observational Studies: Cohort study
+
+- An investigator records whether each participant is exposed and tracks the individual to see if they develop the disease/infection of interest.
+- Similar to an experimental design, but an investigator *does not* control the exposure (no one is randomly assigned to exposure/control).
+- Disease rate in each group is compared after some set time, and if there is a substantial difference in disease in one group versus another, we can conclude that there is an exposure effect.
+- Cohorts will be chosen to be similar in some way so they are comparable.
+
+## Observational Studies: Cohort study
+
+### Prospective versus Retrospective
+
+- *Prospective*: participants enrolled as study begins and followed forward in time to see if and when a particular event occurs
+- *Retrospective*: participants have already been exposed and outcomes of interest have occurred; disease rates are compared in exposed and unexposed groups (we look backward in time)
+
+## Observational Studies: Case-control study
+
+- Case-patients (people with disease) and controls (people without disease) are enrolled in a study
+- Then previous exposures between the two groups are compared
+- The control group provides an idea of how much exposure exists in the population already
+- If the case group has substantially higher exposure than the control group, then illness is said to be associated with exposure
+- Identifying an appropriate control group is key here and must be comparable to the case group in most respects
+
+## Observational Studies: Cross-sectional study
+
+- Participants are enrolled and health outcomes and exposures are simultaneously measured.
+- Study used to assess the prevalence of a particular disease at that time without worrying about the duration of the event
+- Weaker than cohort or case-control studies because risk factors and disease occurrence cannot be separated.
+- Helpful for descriptive purposes; routinely used to document prevalence of vaccination (e.g., against measles) and prevalence of chronic health conditions (e.g., diabetes), among others
+
+## Exercise 1
+
+_____ 1. Representative sample of residents were telephoned and asked how much they
+exercise each week and whether they currently have (have ever been diagnosed
+with) heart disease.
+
+- A. Experimental
+- B. Observational cohort
+- C. Observational case-control
+- D. Observational cross-sectional
+- E. Not an analytical or epidemiologic study
+
+## Exercise 2
+
+_____ 2. Occurrence of cancer was identified between April 1991 and July 2002 for 50,000
+troops who served in the first Gulf War (ended April 1991) and 50,000 troops who
+served elsewhere during the same period.
+
+- A. Experimental
+- B. Observational cohort
+- C. Observational case-control
+- D. Observational cross-sectional
+- E. Not an analytical or epidemiologic study
+
+## Exercise 3
+
+_____ 3. Persons diagnosed with new-onset Lyme disease were asked how often they walk
+through woods, use insect repellant, wear short sleeves and pants, etc. Twice as
+many patients without Lyme disease from the same physician’s practice were
+asked the same questions, and the responses in the two groups were compared.
+
+- A. Experimental
+- B. Observational cohort
+- C. Observational case-control
+- D. Observational cross-sectional
+- E. Not an analytical or epidemiologic study
+
+## Exercise 4
+
+_____ 4. Subjects were children enrolled in a health maintenance organization. At 2 months,
+each child was randomly given one of two types of a new vaccine against rotavirus
+infection. Parents were called by a nurse two weeks later and asked whether the
+children had experienced any of a list of side-effects.
+
+
+- A. Experimental
+- B. Observational cohort
+- C. Observational case-control
+- D. Observational cross-sectional
+- E. Not an analytical or epidemiologic study
+
+## References
+
+- Principles of Epidemiology in Public Health Practice, 3rd Edition. <https://www.cdc.gov/csels/dsepd/ss1978/SS1978.pdf>
+
