@@ -1,0 +1,49 @@
+---
+title: 'Class Activity: Incidence and Prevalence'
+subtitle: "STAT 244NF: Infectious Disease Modeling"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### 1. In the following question, you will consider incidence and prevalence. Decide whether incidence, prevalence, or both, have the following characteristics, and briefly explain why.
+
+  (a) Measure of risk.
+  
+  \vspace{1cm}
+  
+  (b) Generally preferred for chronic diseases without clear date of onset
+  
+  \vspace{1cm}
+  
+  (c) Affected by duration of illness
+  
+  \vspace{1cm}
+
+
+### 2. Which of the following is true?
+
+  (a) All proportions are ratios, but all ratios are not proportions.
+  
+  (b) All ratios are proportions, but all proportions are not ratios. 
+
+\newpage  
+  
+### 3. Proportionate mortality is the proportion of deaths in a specified population during a period of time that are attributable to different causes. Each cause is expressed as a percentage of all deaths, and the sum of the causes adds up to 100%. 
+
+  (a) Does proportionate mortality satisfy the definition of a rate? What about a proportion?
+  
+  (b) Consider the following table. What is the proportionate mortality associated with COVID-19 in 2020?
+  
+  (c) Using the same table, what is the proportionate mortality associated with COVID-19 in 2015-2020?
+  
+  (d) Let's compare the proportionate mortality associated with COVID-19 and cancer in 2020. Calculate an appropriate statistic to quantify this relationship and explain in one sentence how to interpret it.
+  
+  \begin{figure}
+  \includegraphics[]{JAMA_mortality_2015_2020.pdf}
+  \end{figure}
+
+
+
