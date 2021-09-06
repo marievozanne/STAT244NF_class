@@ -1,0 +1,200 @@
+---
+title: "Incidence, Prevalence, and Measures of Risk"
+subtitle: "STAT 244NF: Infectious Disease Modeling"
+author: "Marie Ozanne"
+date: "9/7/2021"
+output: beamer_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Agenda
+
+- Questions from R Lab 0
+- Announcements/Reminders
+- Discussion + Notes: Incidence vs. Prevalence
+- Class Activity: Incidence vs. Prevalence
+
+
+## Frequency Measures
+
+- Ratio
+- Proportion
+- Rate
+
+## Frequency Measures: Ratio
+
+### What is a ratio?
+
+## Frequency Measures: Ratio
+
+### What is a ratio?
+
+Oxford Dictionary defines it as: "the quantitative relation between two amounts showing the number of times one value contains or is contained within the other."
+
+A *ratio* can be a useful way to compare relative magnitudes of two quantities. The numerator and denominator need not be related (e.g., number of patients per hospital)
+
+## Frequency Measures: Ratio
+
+### Which of the following is a ratio?
+
+(a)
+(b)
+(c)
+
+## Frequency Measures: Ratio
+
+Ratios in epidemiology are used both as descriptive statistics and as analytic tools (for which we will fit models, state and test hypotheses, and drawn conclusions).
+
+### Examples:
+
+- Relative risk (also known as a risk ratio)
+- Odds ratio
+- Death-to-case ratio
+
+$$
+\frac{\text{number or rate of events, items, people, etc. in one group}}{\text{number or rate of events, items, people, etc. in second group}}
+$$
+
+
+Note: we will spend more time on these quantities and their associated regression models in later classes -- stay tuned!
+
+
+## Frequency Measures: Proportion
+
+### What is a proportion?
+
+## Frequency Measures: Proportion
+
+### What is a proportion?
+
+Generally speaking, a proportion allows us to compare a part to the whole. It is a special case of a ratio, where the numerator is also included in the denominator.
+
+$$
+\frac{\text{number of people or events with a particular characteristic}}{\text{total number of people or events, or which numerator is a subset }} \times 10^n
+$$
+
+
+## Frequency Measures: Rate
+
+### What is a rate?
+
+## Frequency Measures: Rate
+
+### What is a rate?
+
+- Generally, a rate might be thought of as how fast something happens or goes. 
+
+- In epidemiology, a *rate* is more specific and refers to a measure of *how frequently an event of interest occurs in a defined population over a specific period of time*.
+
+## Rate, Ratio, or Proportion?
+
+### Question 1: 
+
+$$
+\frac{\text{number of people that died from cholera in 1854 London}}{\text{number of people who died in 1854 London}}
+$$
+Which of the choices (a)-(d) best describes the above value?
+
+(a) Rate
+(b) Ratio
+(c) Proportion
+(d) None of the above
+
+## Rate, Ratio, or Proportion?
+
+### Question 2: 
+
+$$
+\frac{\text{number of people hospitalized for COVID-19 in the US in 2020}}{\text{number of people infected with COVID-19 in the US in 2020}}
+$$
+Which of the choices (a)-(d) best describes the above value?
+
+(a) Rate
+(b) Ratio
+(c) Proportion
+(d) None of the above
+
+## Rate, Ratio, or Proportion?
+
+### Question 3: 
+
+$$
+\frac{\text{number of women that died from heart disease in 2010}}{\text{number of women that died from cancer in 2010}}
+$$
+Which of the choices (a)-(d) best describes the above value?
+
+(a) Rate
+(b) Ratio
+(c) Proportion
+(d) None of the above
+
+## Rate, Ratio, or Proportion?
+
+### Question 4: 
+
+$$
+\frac{\text{number of new cases of COVID-19 in State A last week}}{\text{total number of people in State A last week}}
+$$
+Which of the choices (a)-(d) best describes the above value?
+
+(a) Rate
+(b) Ratio
+(c) Proportion
+(d) None of the above
+
+## Incidence
+
+- Incidence describes the occurrence of new cases of disease (or some other health event) in a population *over a specified period of time*.
+- Incidence sometimes means the number of new cases in a community.
+- Incidence sometimes means the number of new cases *per unit of population*
+
+## Incidence Proportion
+
+- Proportion of an initially disease-free population that develops disease during a specified, usually limited, period of time.
+- Also known as attack rate, risk, probability of getting disease, or cumulative incidence.
+
+
+$$
+\frac{\text{Number of new cases of disease or injury during specified time period}}{\text{Size of population at start of time period}}
+$$
+
+## Incidence Rate
+
+- A rate may be used to describe how quickly a particular disease occurs in a population (per unit time, like day, month, year). 
+- Incorporates time directly into the denominator.
+- This kind of rate is focused on *new cases*, and is called an *incidence rate*.
+
+$$
+\frac{\text{Number of new cases of disease during specified period}}{\text{
+Time each person was observed, totaled for all persons}}
+$$
+
+
+## Prevalence Rate
+
+- A rate may also be used to describe the proportion of people that have a particular health condition in a particular population at a point in time.
+- This kind of rate is focused on all cases, new and continuing, and is called a *prevalence rate*.
+
+- A prevalence rate may be measured at a particular point in time, like a date. This is called *point prevalence*.
+- A prevalence rate may also be measured over an interval of time - this is called *period prevalence*.
+
+$$
+\frac{\text{All new and pre-existing cases
+during a given time period}}{\text{Population during the same time period}} \times 10^n
+$$
+
+## Prevalence Rate
+
+- If prevalence is high, what might this tell us about how fatal a particular illness is? What about how quickly people recover?
+
+- If prevalence is low, what might this tell us about how fatal a particular illness is? What about how quickly people recover?
+
+## Class Activity
+
+## References
+
+- Principles of Epidemiology in Public Health Practice, 3rd Edition. <https://www.cdc.gov/csels/dsepd/ss1978/SS1978.pdf>
+- Pagano and Gauvreau, 2000. Principles of Biostatistics, 2nd Edition. Brooks/Cole CENGAGE Learning.
