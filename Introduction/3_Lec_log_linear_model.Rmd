@@ -1,0 +1,219 @@
+---
+title: "Modeling Rates"
+subtitle: "STAT 244NF: Infectious Disease Modeling"
+author: "Marie Ozanne"
+date: "9/14/2021"
+output: beamer_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(dplyr)
+library(ggplot2)
+library(incidence)
+library(outbreaks)
+library(reshape2)
+
+ebola_linelist <- ebola_sim$linelist
+ebola_sim_contacts <- ebola_sim$contacts
+ebola_incidence <- incidence(dates = ebola_linelist$date_of_onset, interval = 1)
+ebola_incidence_weekly <- incidence(dates = ebola_linelist$date_of_onset, 
+                                    interval = "1 week")
+ebola_incidence_14 <- incidence(dates = ebola_linelist$date_of_onset, 
+                                    interval = "2 saturday weeks")
+ebola_incidence_monthly <- incidence(dates = ebola_linelist$date_of_onset, 
+                                     interval = "1 month")
+```
+
+
+## Motivating Example
+
+Simulated Ebola Data set (`ebola_sim` from *outbreaks* package): *new cases per week* in a single large city
+
+```{r fig.align='center', fig.height=2, fig.width=4, warning=FALSE}
+plot(ebola_incidence_weekly)  + theme_bw() + theme(axis.title = element_text(size=7),
+                                               axis.text = element_text(size=7),
+                                               axis.text.x = element_text(angle = 45,
+                                                                          hjust = 1))
+```
+## Motivating Example
+
+- What is the structure of the data we are considering? Continuous? Discrete?
+- Why are the data entries considered rates?
+
+## Where we left off in Lab 1
+
+In Lab 1, we spent some time working with the *incidence* package, which facilitated visualizing outbreaks through epidemic curves (think of the overall shape of the histogram as a curve). At the end of the lab, we briefly introduced a regression-based model.
+
+## Where we left off in Lab 1
+
+The *incidence* package allows us to fit what they refer to as a log-linear model (more on this later). 
+
+\tiny
+```{r echo=TRUE, max.height='50px', attr.output='.numberLines'}
+epidemic_first_20 <- fit(ebola_incidence_weekly[1:20])
+epidemic_first_20
+```
+
+
+## Epidemic
+
+- "The increase and subsequent decrease in incidence following the (re)introduction of an infection in a population."
+- "...the occurrence of cases in a given locality at a frequency which greatly exceeds what is expected."
+
+## Growth Rate (of an epidemic)
+
+- The rate at which the prevalence of infectious people increases
+- Typically calculated at the early stages of an epidemic
+
+```{r echo=TRUE}
+epidemic_first_20$info$r
+epidemic_first_20$info$r.conf
+```
+- How do we interpret this?
+
+## Doubling Time
+
+- The time it takes for the number of infectious individuals to double
+
+```{r echo=TRUE}
+epidemic_first_20$info$doubling
+epidemic_first_20$info$doubling.conf
+```
+- How do we interpret this?
+
+
+## Back to the "log-linear" model
+
+- The *incidence* package fits a model that looks like:
+
+$$
+\log(y)=r\times t + b
+$$
+where $y$ is a the number of new cases at a particular time, $r$ is the (daily) rate of growth, $t$ is the number of days since the start of an outbreak, and $b$ is an intercept.
+
+## Back to the "log-linear" model
+
+- What is this model? It is misleading to call is a "log-linear" model.
+- How would we fit this model without the *incidence* package? 
+
+## Poisson regression and the log-linear model
+
+- In statistics, the log-linear model typically refers to a Poisson regression model, which is a generalized linear model.
+- The simplest form of the model is:
+
+$$
+\log(\lambda)=\beta_0+x\times\beta_1
+$$
+where $\lambda$ is the mean number of new cases (which we do not know, but can estimate with data), $x$ is the time since the outbreak started, and $\beta_1$ is the growth rate.
+
+We will spend more time with this model next class. For now, we need to understand the underlying distribution - the Poisson distribution.
+
+## Poisson Distribution
+
+- Used to model discrete events that occur infrequently over time and space
+
+```{r fig.align='center', echo=FALSE, fig.height=2, fig.width=4}
+tmp <- data.frame(x=0:100,
+                  lambda.10=dpois(0:100, 10),
+                  lambda.5 =dpois(0:100, 5),
+                  lambda.2 =dpois(0:100, 2),
+                  lambda.50 =dpois(0:100, 50))
+m.tmp <- melt(data=tmp,
+              id.vars = "x",
+              variable.name="lambda",
+              value.name="probability")
+
+ggplot(data=m.tmp, aes(x=x, y=probability, group=lambda)) + 
+  geom_line(aes(col=lambda)) + 
+  theme_bw()
+```
+
+
+## Poisson Distribution
+
+- $X$ is a random variable representing the number of occurrences of some event of interest over a given interval.
+- It can take on values between 0 and $\infty$.
+- It has one parameter, called the rate, which we represent with $\lambda$ (pronounced lambda). This rate also represents the mean number of occurrences of the event of interest in the interval of interest.
+- The probability of a particular number of events happening in an interval is:
+
+$$
+P(X=x|\lambda)=\frac{e^{-\lambda}\lambda^x}{x!}
+$$
+
+## Poisson Distribution
+
+### Assumptions
+
+1. The probability that a single event occurs within an interval (of time, in our case) is proportional to the length of the interval.
+2. Within an interval, theoretically infinitely many events could occur. There is no restriction to a fixed number of trials (as in the binomial distribution).
+3. Events occur independently, both within the same interval, and between consecutive intervals.
+
+## Poisson Distribution
+
+### Calculating Poisson probabilities in R: `dpois`
+
+- $P(X=5|\lambda=1)$ = `dpois(x=5, lambda=1)`
+
+```{r echo=TRUE}
+dpois(x=5, lambda=1)
+```
+
+## Poisson Distribution
+
+### Calculating Poisson probabilities in R: `ppois`
+
+- $P(X \leq 5|\lambda=1)$ = `ppois(x=5, lambda=1)`
+
+```{r echo=TRUE}
+ppois(q=5, lambda=1, lower.tail=TRUE)
+```
+
+(or equivalently)
+
+```{r echo=TRUE}
+1-ppois(q=5,lambda=1, lower.tail=FALSE)
+```
+
+<!-- ## Poisson Distribution -->
+
+<!-- - The Poisson distribution is the underlying distribution behind the *log-linear model*, which is also referred to as a *Poisson regression model*, a member of the generalized linear model family. -->
+
+
+
+
+<!-- - This is the model that we saw in Lab 1, which we consider in more detail this week. -->
+
+<!-- ```{r echo=FALSE} -->
+<!-- df_ebola_incidence_weekly <- as.data.frame(ebola_incidence_monthly) -->
+<!-- tmp2 <- rep(NA, nrow(df_ebola_incidence_weekly)) -->
+<!-- for (i in 1:length(tmp2)){ -->
+<!--   tmp2[i] <- unclass(df_ebola_incidence_weekly$dates[i]-df_ebola_incidence_weekly$dates[1]) -->
+<!-- } -->
+
+<!-- df_ebola_incidence_weekly <- df_ebola_incidence_weekly %>% -->
+<!--   mutate( -->
+<!--     days_since_start = tmp2, -->
+<!--     log_counts = log(counts) -->
+<!--   ) -->
+
+
+
+<!-- glm(data=df_ebola_incidence_weekly[1:20,], -->
+<!--     counts ~ days_since_start, family = poisson(link="log")) -->
+
+<!-- lm(data=df_ebola_incidence_weekly[1:20,], -->
+<!--    log_counts ~ days_since_start) -->
+
+<!-- epidemic_first_20 <- fit(ebola_incidence_weekly[1:20]) -->
+<!-- epidemic_first_20 -->
+<!-- ``` -->
+
+
+
+
+## References
+
+- E. Vynnycky and R. White. \underline{An Introduction to Infectious Disease Modelling}. Oxford University Press. 2010.
+
