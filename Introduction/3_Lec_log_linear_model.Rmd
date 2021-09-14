@@ -164,7 +164,7 @@ dpois(x=5, lambda=1)
 
 ### Calculating Poisson probabilities in R: `ppois`
 
-- $P(X \leq 5|\lambda=1)$ = `ppois(x=5, lambda=1)`
+- $P(X \leq 5|\lambda=1)$ = `ppois(q=5, lambda=1)`
 
 ```{r echo=TRUE}
 ppois(q=5, lambda=1, lower.tail=TRUE)
