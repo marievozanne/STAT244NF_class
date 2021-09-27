@@ -1,0 +1,60 @@
+---
+title: 'Project 1: Epidemiological Characteristics'
+subtitle: "STAT 244NF: Infectious Disease Modeling"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1. For this project you have the option of working alone or in a pair. If you would like to have a partner but do not know who to ask, please let me know, and I will try to pair you up with someone else.
+
+2. This will be a 3-5 page report which covers the 3 and 4 below. You will be assessed on how completely you cover the information detailed in 3 and 4 and how well you support your findings with appropriate resources. This project will lay the foundation for the second project in this class, which will be simulation-based. 
+
+3. Choose a disease of interest (list of suggested diseases)
+    - COVID-19
+    - Measles
+    - Influenza
+    - Zika
+    - Dengue
+    - Yellow fever
+    - Ebola
+    - HIV/AIDS
+    - Gonorrhea 
+    - Tuberculosis 
+    - Chicken pox/varicella
+    - Cholera
+    - Diphtheria 
+    - Other - please talk to to me.
+
+4. Once you have chosen your disease of interest, find out the following information about the disease. You will need to find at least 2 sources for each piece of information, either from peer-reviewed journals (think Google Scholar or similar search resource) or from a public health agency website like the Centers for Disease Control.
+
+    - Source of infection (pathogen); should include whether it is viral, bacterial, parasitic, fungal, etc. and what the pathogen(s) is (are).
+    - Mode of transmission
+      - Respiratory
+      - Sexual/blood
+      - Other
+    - Population of interest
+      - Size
+      - Demographics
+      - Prevalence in the population/proportion susceptible
+    - Risk of infection
+    - Latent/pre-infectious period (how long? what time scale?)
+    - What defines a case?
+      - Diagnostic tests
+      - Symptoms
+      - Other?
+    - Incubation period (how long? what time scale?)
+    - Infectious period (how long? what time scale?)
+    - Reproductive number (should be greater than or equal to 1 in an outbreak)
+      - R = 1, endemic
+      - R $> 1$, epidemic
+    - Serial interval/generation time
+    - Immunizing infection
+      - Does infection confer immunity?
+    - Recovery time/probability of recovery
+    - Mortality rate
+    - Seasonality
+    - Other additional challenges associated with the disease you are studying?
+    
