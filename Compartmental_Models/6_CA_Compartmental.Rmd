@@ -1,0 +1,27 @@
+---
+title: 'Class Activity: Introduction to Compartmental Models'
+subtitle: "STAT 244NF: Infectious Disease Modeling"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Break into groups of two or three. Consider each of the following descriptions of the *natural history of infection below*, and determine which of the compartmental model setups in the notes would be most appropriate given. The group should designate at least one person to report back to the class when called upon.
+
+**1. Once infected, those that are HIV-positive are infected and infectious for life. Assume no antiretroviral treatment (ART) for purposes of this question.**
+
+\vspace{5cm}
+
+**2. Those that contract influenza usually have 1-2 days between becoming infected and actually shedding virus (and thus becoming able to transmit infection). About 5 days after symptoms appear, individuals generally begin to recover and are no longer contagious. Influenza is an immunity-conferring infection, meaning that recovered individuals have some immune protection. However, the dominant strain(s) of seasonal influenza change enough from season to season that lifelong immunity is not conferred. Researchers are interested in modelling multiple seasons of influenza.**
+
+\newpage
+
+**3. Those that contract influenza usually have 1-2 days between becoming infected and actually shedding virus (and thus becoming able to transmit infection). About 5 days after symptoms appear, individuals generally begin to recover and are no longer contagious. Influenza is an immunity-conferring infection, meaning that recovered individuals have some immune protection. Researchers are only interested in modelling a single season of influenza.**
+
+\vspace{5cm}
+
+**4. Gonorrhea is a curable sexually-transmitted infection. While treatable, after individuals recover they do not gain any immunity to the infection.**
+
+\vspace{5cm}

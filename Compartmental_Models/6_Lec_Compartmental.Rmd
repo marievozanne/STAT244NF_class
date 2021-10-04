@@ -1,0 +1,72 @@
+---
+title: "Introduction to Compartmental Models"
+subtitle: "STAT 244NF: Infectious Disease Modeling"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Our focus thus far:
+
+\begin{figure}
+\centering
+\includegraphics[]{motivation_sir_epi_annotated.png}
+\end{figure}
+
+So far, we have observed and modeled only one aspect of the infection process, specifically new (or in some cases new and existing) cases of infection. In our regression models we estimated the growth rate ($r$), as well as relative risk (RR) and the odds ratio (OR). These models give us tools to assess risk factors (exposures) for an infection or disease as well as ways to estimate the rate at which new cases are being generated. They **do not** allow us to look at other characteristics of infection progression, like latent periods, duration of infectiousness, or time to recovery. One class of tools that will allow us to examine a more complete picture of infection and disease progression is *compartmental models*, which simplify the underlying biological process. Such models are typically used to describe population-level behavior, and do not tell us about progression for an individual.
+
+# What is a compartmental model?
+
+
+## Definition
+
+*Compartmental model* refers to a class of models that simplify the true underlying infection process by grouping infection states of interest into "compartments". 
+
+- Assume individuals in a single compartment have the same characteristics and infection behavior
+- Assume individuals in a population move through the compartments in a particular order. 
+
+## Examples
+
+### Best known model: SIR
+
+- **S**usceptible: can acquire infection, but not currently infectious (or infected), or fully immune; vulnerable to infection
+- **I**nfectious: infected *and* able to transmit infection to others
+- **R**ecovered/Removed: removed from the pool of individuals that can contribute to this disease process; often this is due to recovery with immunity; in this model, such immunity would be assumed to be permanent over the time period under consideration in the model
+
+Although the SIR model is the best known compartmental model, the framework for compartmental models is modifiable. You can add or subtract compartments based on the *natural history of infection*, which refers to important disease categories, necessary transitions, and important categories in the population itself. 
+
+### Other common structures for compartmental models for infectious diseases
+
+- SI (Susceptible, Infectious)
+
+- SIS (Susceptible, Infectious, Susceptible)
+
+- SIRS (Susceptible, Infectious, Recovered, Susceptible)
+
+- SEIR (Susceptible, Exposed (Pre-infectious), Infectious, Recovered)
+
+- SEIRS (Susceptible, Exposed (Pre-infectious), Infectious, Recovered, Susceptible)
+
+*Pause: Class Activity*
+
+<!-- different kinds, e.g. SI, SIR, etc. plus relevant diseases that go with them. Maybe some matching based on a description of the disease for a class activity? -->
+
+<!-- some picture to illustrate them. then we need to motivate thinking about how we move from one compartment to another -->
+
+<!-- - deterministic models versus stochastic models -->
+
+<!-- - difference equations corresponding to the various models -- let's do this in terms of the chain binomial representation. This will probably be more difficult for some of them than you are expecting if it is general. have a couple of specific examples, first, which have numbers... completely deterministic? small populations? -->
+
+<!-- - also have the complication of thinking about changes over time -->
+
+## Deterministic versus Stochastic Methods
+
+### Deterministic models
+
+Such models describe what happens "on average" in the population. Parameters are fixed, and model predictions are predetermined.
+
+### Stochastic models
+
+In these models, the number of individuals that move between compartments varies by chance. A range of outcomes are possible, which is more representative of the real world.
