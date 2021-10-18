@@ -1,0 +1,82 @@
+---
+title: "Multiple Contacts, Infectious Period, and the Basic Reproductive Number"
+subtitle: "STAT 244NF: Infectious Disease Modeling"
+header-includes:
+  - \usepackage{float}
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Multiple Contacts
+
+In our last lab, we developed a parameter to describe the transition from $S \rightarrow I$ in terms of a conditional and marginal probability. However, we had an overly restrictive assumption, namely that the number of contacts (with infectious individuals) in a single time period (e.g., weeks) is 1. Depending on the disease in question, this may make very little sense. Thus, we would like to modify our model to incorporate multiple contacts that can confer infection, which we will refer to as *effective contacts*. To determine an appropriate number or range of effective contacts, we will need information on the *basic reproductive number*, as well as the *duration of infectiousness* for a disease.
+
+## The Basic Reproductive Number
+
+The *basic reproductive number* refers to the average number of new infections that will be caused by a single infectious individual while they are infectious in a totally susceptible population. It is commonly referred to as $R_0$ (pronounced "R-knot"). 
+
+### Basic Reproductive Number Examples:
+
+\begin{table}[H]
+\begin{tabular}{l r}
+\textbf{Infection} & $R_0$\\
+\hline
+Diptheria & 6-7\\
+Influenza & 2-4\\
+Malaria & 5-100\\
+Measles & 12-18\\
+Mumps & 4-7\\
+Pertussis & 12-17\\
+Rubella & 6-7 
+\end{tabular}
+\end{table}
+
+## Duration of Infectiousness
+
+The duration of infectiousness, more appropriately known as the *infectious period*, refers to the time period during which an individual is infectious. This is always presented for a particular time scale. 
+
+## Connection with Effective Contacts
+
+We will denote the number of *effective contacts* (per unit time) as $c_e$, which will encompass both the probability of infection given a contact (which we previously called $p^c(t)$) and the number of contacts, which no longer is forced to be 1. It is reasonable to group these quantities together, partially because in practice it is very difficult, if not impossible to distinguish between the two.
+
+$$
+c_e=\frac{R_0}{D}
+$$
+
+where $R_0$ is the basic reproductive number and $D$ is the infectious period.
+
+Taking into account the effective contacts, we can modify our parameter, $\lambda_t$, where $K$ is the number of contacts (different from effective contacts), $p^c(t)$ is the probability of infection given a contact, $I_{t-1}$ is the number of infectious individuals at the previous time point, and $N$ is the total number of individuals in the population:
+
+$$
+\lambda_t=\underbrace{{\color{red}{K}}}_{\text{number of contacts}}\times \underbrace{{\color{red}{p^c(t)}}\times\frac{I_{t-1}}{N}}_{\text{what we had before}}={\color{red}{c_e}}\times\frac{I_{t-1}}{N}\approx 1-\exp\left\{-{\color{red}{c_e}}\times\frac{I_{t-1}}{N} \right\}
+$$
+
+
+We read the last portion as "approximately equal to", and require this portion because we want to think about transitions in terms of transition probabilities, rather than transition rates (which is common in differential equation-based methods). The last part ($\approx 1-\exp\left\{-{\color{red}{c_e}}\times\frac{I_{t-1}}{N} \right\}$) is true under a Poisson distributional assumption on the contact process, but the derivation is beyond the scope of this class. **You do not need to derive, memorize, or defend this representation - you just need to be able to use it.**
+
+# Exercises
+
+**1. Suppose $R_0$ is the identical in two populations, but one population is 100,000 and the other is 1 million. In which population will $\lambda_t$ be smaller?**
+
+\vspace{2 cm}
+
+**2. Suppose that the basic reproductive number for a particular infection is 2, and that individuals with this infection are infectious for 2 days, on average. In a totally susceptible population, how many new infections do you expect one infectious individual to cause in 2 days? Why?**
+
+\vspace{2 cm}
+
+**3. Suppose the population of interest for the infection described in (2) consists of 2000 people. What is the number of effective contacts per day for this infection?**
+
+\vspace{2 cm}
+
+**4. Suppose at Day 9, in a population of 2000 individuals, there are 1767 susceptible individuals and 233 infectious individuals. Assuming that we are dealing with the same infection as in (2), how many infectious individuals do we expect at Day 10?**
+
+\vspace{2 cm}
+
+**5. Suppose instead that $R_0$ is 3, but the infectious period is still 2 days. Do you expect that there will be more or fewer infectious individuals at Day 10 than in (4)? Assume the population size is the same.**
+
+\vspace{2 cm}
+
+**6. Suppose instead that $R_0$ is 2, but the infectious period is 4 days. Do you expect that there will be more or fewer infectious individuals at Day 10 than in (4)? Assume the population size is the same.**
