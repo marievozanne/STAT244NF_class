@@ -1,0 +1,129 @@
+---
+title: 'Compartmental Models: Growth Rates, Serial Intervals, and Reproductive Numbers'
+subtitle: "STAT 244NF: Infectious Disease Modeling"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Review
+
+So far, we have been formulating difference equations for deterministic compartmental models. We have worked primarily with SI models, and last week we programmed a function to simulate an infectious disease process following and SIS model. The SIS model had the following differencing equations:
+
+\begin{align*}
+S_{t+1}=S_t-\lambda_tS_{t-1}+\rho I_{t-1}
+S_{t+1}=I_t+\lambda_tS_{t-1}-\rho I_{t-1}
+\end{align*}
+
+### Time-dependent $\lambda_t$ with multiple contacts
+
+$$\lambda_t=1-e^{-c_e\frac{I_{t-1}}{N}}$$
+
+### Effective contacts, $c_e$
+
+The effective number of contact, $c_e$ is a function of the basic reproductive number, $R_0$, and the average infectious period $D$. 
+
+$$c_e=\frac{R_0}{D}=\underbrace{\rho}_{\text{recovery rate}}\times R_0$$
+
+
+### Basic reproductive number, $R_0$
+
+Manipulating the equation above, we can write one for the basic reproductive number, which is the average number of new infections caused by a single infectious individual during the time that individual is infectious in a totally susceptible population.
+
+$$R_0=c_e\times D=\frac{c_e}{\rho}$$
+
+## Growth rate
+
+We have seen the *growth rate* before, when we were in the regression portion of this class. This is the rate at which the prevalence of infectious people increases. It is typically most relevant in the early stages of an epidemic. In our previous work with this quantity, we denoted it by $r$ for rate. **However, since $R$ is a potential compartment in a model and we may want to use $r$, we are going to call the growth rate $\Lambda$ (this is a capital "lambda") instead**.
+
+In the early stages of an epidemic, it turns out that 
+
+$$I(t)\approx I(0)e^{\Lambda \times t}.$$
+
+Equivalently,
+
+$$
+\ln(I(t))\approx\ln(I(0))+\Lambda \times t
+$$
+
+**Solve this equation for $\Lambda$.**
+
+\vspace{2cm}
+
+## Serial interval
+
+The *serial interval*, which we will denote as $T_s$, is defined as the time between successive infections in a population afflicted by the infection of interest. This will be relevant for calculating the reproductive number under certain conditions (more below).
+
+## Other basic reproductive number formulations:
+
+### Basic reproductive number (and growth rate)
+
+So far, we have phrased the basic reproductive number in terms of $c_e$, the number of effective contacts, and the infectious period, $D$ (or the recovery rate, since that is just the inverse of the infectious period). This formulation was used in the context of an SI model, and a critical assumption behind it is that the pre-infectious period is either short relative to the infectious period, or that individuals become infectious immediately after exposure.
+
+#### Short pre-infectious period (relative to infectious period)
+
+An equivalent representation of the $R_0$, this time in terms of the growth rate $\Lambda$ and the infectious period $D$ is:
+
+$$R_0=1+\Lambda D.$$
+If we know something about the doubling time, $T_d$, for an infection (rather than growth rate), we can use the fact that $\Lambda=\frac{\ln(2)}{T_d}$ (we saw this early in the regression portion of the class), and write:
+
+$$
+R_0=1+\frac{\ln(2)}{T_d}D.
+$$
+
+**Use $\ln(I(t))\approx\ln(I(0))+\Lambda \times t$ to derive the relationship between $\Lambda$ and doubling time presented above.** *Hint: Think about the simplest case of doubling, where I(1) is 2 and I(0) is 1, and $T_d$.*
+
+\vspace{3cm}
+
+
+#### Pre-infectious period and infectious period are close to the same 
+
+Assuming, $D'$, the average pre-infectious period (incubation period) and $D$, the average infectious period, are similar and follow exponential distributions, then, 
+
+$$
+R_0=(1+\Lambda D)(1+\Lambda D').
+$$
+
+#### Pre-infectious period and/or infectious period are unknown
+
+If we do not know either $D$ or $D'$ (or both), then we cannot use either of the above expressions. Assuming these periods follow an exponential distribution, then we can write the reproductive number as a function of the growth rate, $\Lambda$, and the serial interval, $T_s$, which is the average . 
+
+$$R_0=1+\Lambda T_s$$
+
+Assuming an exponential distribution, $T_s=D+D'$.
+
+
+**For HIV, the pre-infectious period is very short relative to the infectious period, which lasts a lifetime. Which equation would you use to calculate $R_0$?**
+
+\vspace{2cm}
+
+**Although HIV has a short pre-infectious period, it is not included in a compartmental model representation of the infection (there is no E compartment). Why do you think this is OK?**
+
+\vspace{2cm}
+
+**According to Vink et al.^[Vink, Bootsma, and Wallinga (2014). Serial Intervals of Respiratory Infectious Diseases: A Systematic Review and Analysis. \emph{American Journal of Epidemiology}, 180(9), 865-875.], the mean serial interval for influenza H3N2 is 2.2 days. Assume a growth rate of 1.2 cases/day. Calculate $R_0$ for H3N2.**
+
+\vspace{2cm}
+
+**If $D$ and $D'$ are similar, then it is important to model both of them. For an immunity-conferring infection with similar $D$ and $D'$, what compartmental model would you recommend?**
+
+\vspace{2cm}
+
+
+## Effective reproductive number
+
+It is rarely the case that a population is totally susceptible to an infection in the real world, which makes the basic reproductive number a less appropriate choice for describing the infection spread, particularly when this assumption is severely violated (possibly to due to natural immunity or vaccination). Thus, other reproductive number formulations have been developed, including the *effective reproductive number* (also known as the net reproductive number). The *effective reproductive number* is 
+
+$$
+R_{eff}=R_0\times s,
+$$
+
+where **$s$ is the fraction of the host population that is susceptible**. 
+
+**Suppose the basic reproductive number of influenza is 2, but 50% of the population is susceptible. What is the effective reproductive number?**
+
+\vspace{2cm}
+
+For the formulations in the previous section, we actually get the effective reproductive number, rather than the basic reproductive number, if some of the population are immune, either through natural immunity or through vaccination.
