@@ -13,8 +13,8 @@ knitr::opts_chunk$set(echo = TRUE)
 So far, we have been formulating difference equations for deterministic compartmental models. We have worked primarily with SI models, and last week we programmed a function to simulate an infectious disease process following and SIS model. The SIS model had the following differencing equations:
 
 \begin{align*}
-S_{t+1}=S_t-\lambda_tS_{t-1}+\rho I_{t-1}
-S_{t+1}=I_t+\lambda_tS_{t-1}-\rho I_{t-1}
+S_{t+1}&=S_t-\lambda_tS_{t-1}+\rho I_{t-1}\\
+S_{t+1}&=I_t+\lambda_tS_{t-1}-\rho I_{t-1}
 \end{align*}
 
 ### Time-dependent $\lambda_t$ with multiple contacts
