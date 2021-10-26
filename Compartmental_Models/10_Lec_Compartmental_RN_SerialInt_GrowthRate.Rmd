@@ -12,14 +12,28 @@ knitr::opts_chunk$set(echo = TRUE)
 
 So far, we have been formulating difference equations for deterministic compartmental models. We have worked primarily with SI models, and last week we programmed a function to simulate an infectious disease process following and SIS model. The SIS model had the following differencing equations:
 
-\begin{align*}
-S_{t+1}&=S_t-\lambda_tS_{t-1}+\rho I_{t-1}\\
-S_{t+1}&=I_t+\lambda_tS_{t-1}-\rho I_{t-1}
-\end{align*}
+\begin{align}
+S_{t+1}&=S_t-\lambda_tS_{t}+\rho I_{t}\\
+I_{t+1}&=I_t+\lambda_tS_{t}-\rho I_{t}
+\end{align}
+
+(or equivalently, in keeping with our R indexing)
+
+
+\begin{align}
+S_{t}&=S_{t-1}-\lambda_tS_{t-1}+\rho I_{t-1}\\
+I_{t}&=I_{t-1}+\lambda_tS_{t-1}-\rho I_{t-1}
+\end{align}
 
 ### Time-dependent $\lambda_t$ with multiple contacts
 
-$$\lambda_t=1-e^{-c_e\frac{I_{t-1}}{N}}$$
+If we use equations (1) and (2), then
+
+$$\lambda_t=1-e^{-c_e\frac{I_{t}}{N}}.$$
+
+If we use equations (3) and (4), then
+
+$$\lambda_t=1-e^{-c_e\frac{I_{t-1}}{N}}.$$
 
 ### Effective contacts, $c_e$
 
@@ -88,12 +102,13 @@ $$
 
 #### Pre-infectious period and/or infectious period are unknown
 
-If we do not know either $D$ or $D'$ (or both), then we cannot use either of the above expressions. Assuming these periods follow an exponential distribution, then we can write the reproductive number as a function of the growth rate, $\Lambda$, and the serial interval, $T_s$, which is the average . 
+If we do not know either $D$ or $D'$ (or both), then we cannot use either of the above expressions. Assuming these periods follow an exponential distribution, then we can write the reproductive number as a function of the growth rate, $\Lambda$, and the serial interval, $T_s$. 
 
 $$R_0=1+\Lambda T_s$$
 
 Assuming an exponential distribution, $T_s=D+D'$.
 
+\newpage
 
 **For HIV, the pre-infectious period is very short relative to the infectious period, which lasts a lifetime. Which equation would you use to calculate $R_0$?**
 
@@ -111,6 +126,7 @@ Assuming an exponential distribution, $T_s=D+D'$.
 
 \vspace{2cm}
 
+\newpage
 
 ## Effective reproductive number
 
