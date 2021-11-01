@@ -1,0 +1,167 @@
+---
+title: "Introduction to Stochastic Compartmental Models"
+subtitle: "STAT 244NF: Infectious Disease Modeling"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(ggplot2)
+
+lambda_t_fcn <- function(R_0, D, I_i, N){
+  c_e <- R_0/D
+  return(1-exp(-c_e*I_i/N))
+}
+
+SEIR_simulation <- function(N, E0, I0, R0, R_0, pD, D, Time){
+  SEIR_df <- data.frame(time=0:Time,
+                     S=rep(NA, Time+1),
+                     E=rep(NA, Time+1),
+                     I=rep(NA, Time+1),
+                     R=rep(NA, Time+1),
+                     lambda_t=rep(NA, Time+1))
+
+  SEIR_df$S[1] <- N-E0-I0-R0
+  SEIR_df$E[1] <- E0
+  SEIR_df$I[1] <- I0
+  SEIR_df$R[1] <- R0
+
+  for (i in 2:(Time+1)){
+    SEIR_df$lambda_t[i] <- lambda_t_fcn(R_0=R_0, D=D, I_i=SEIR_df$I[i-1], N=N)
+    SEIR_df$S[i] <- SEIR_df$S[i-1]-SEIR_df$lambda_t[i]*SEIR_df$S[i-1]
+    SEIR_df$E[i] <- SEIR_df$E[i-1]+SEIR_df$lambda_t[i]*SEIR_df$S[i-1]-1/pD*SEIR_df$E[i-1]
+    SEIR_df$I[i] <- SEIR_df$I[i-1]+1/pD*SEIR_df$E[i-1]-1/D*SEIR_df$I[i-1]
+    SEIR_df$R[i] <- SEIR_df$R[i-1]+1/D*SEIR_df$I[i-1]
+  }
+  
+  return(list(
+    df_ggplot=data.frame(time=rep(0:Time, 4),
+                       compartment=rep(c("S","E", "I", "R"), each=(Time+1)),
+                       count=c(SEIR_df$S, SEIR_df$E, SEIR_df$I, SEIR_df$R)),
+    SEIR_df=SEIR_df)
+  )
+}
+```
+
+# Deterministic models
+
+So far in this class, we have been working with deterministic models. Recall from our introduction to compartmental models, deterministic models describe what happens "on average" in a population. Parameters (e.g., $\lambda_t$, $\pi$, $\rho$) are fixed, and model predictions are predetermined. In other words, there is no randomness. Even though $\lambda_t$ changes based on the value of $I_{t-1}$, it will always be the same for each value of $t$, no matter how many times we run our simulation. Similarly, $\pi$ and $\rho$ will always be the same.  
+
+For example, consider the simulation from the SEIR model: 
+
+```{r}
+sim_SEIR <- SEIR_simulation(N=100, E0=0, I0=1, R0=0, R_0=2, pD=3, D=2, Time=60)
+
+head(sim_SEIR$SEIR_df, 10)
+```
+
+The values above represent our predictions at the first nine days (plus the initial day), assuming a population of 100 individuals, 1 initial infectious individuals, and an infection with a basic reproductive number of 2, a pre-infectious period of 3 days, and an infectious period of 2 days. 
+
+**Do you think it is reasonable to predict that 1.25 individuals will be infectious at Day 7? If not, what would be more reasonable?**
+
+\vspace{1.5cm}
+
+**Do you think it is reasonable that the size of the outbreak will always be the same? If not, what would be more reasonable?**
+
+\vspace{1.5cm}
+
+## Difference Equations 
+
+\begin{align*}
+S_t&=S_{t-1}-\underbrace{{\color{green}{\lambda_t S_{t-1}}}}_{\text{not an integer}}\\
+E_t&=E_{t-1}+{\color{green}{\lambda_tS_{t-1}}}-\underbrace{{\color{blue}{\pi E_{t-1}}}}_{\text{not an integer}}\\
+I_t&=I_{t-1}+{\color{blue}{\pi E_{t-1}}}-\underbrace{{\color{violet}{\rho I_{t-1}}}}_{\text{not an integer}}\\
+R_t&=R_{t-1}+{\color{violet}{\rho I_{t-1}}}\\
+\end{align*}
+
+```{r fig.align='center'}
+ggplot(data=sim_SEIR$df_ggplot, aes(x=time, y=count)) + 
+  geom_line(aes(color=compartment), size=1.1) + 
+  theme_bw() + 
+  xlab("Days") + 
+  ylab("Count") + 
+  scale_colour_discrete(limits = c("S", "E", "I", "R"))
+```
+
+## Problems with the deterministic models
+
+1. Reasonable predictions for compartment counts should have only integer-valued - to be realistic, we have to have whole counts.
+2. Random chance plays a role in outbreak size. We can conceivably have the same population and in one case we would get an outbreak, but in another we would not.
+
+**These problems can be remedied through the use of stochastic models.**
+
+
+# Stochastic models
+
+In stochastic models, two things are different than the deterministic models we were using. First, we assume that the number of individuals moving between compartments is a random variable that follows a particular probability distribution. Second, the number of individuals that move between compartments varies by chance. A range of outcomes are possible, which is more representative of the real world. These two qualities address the two problems listed above. 
+
+## Difference Equations 
+
+\begin{align*}
+S_t&=S_{t-1}-{\color{green}{E^{(SE)}_{t}}}\\
+E_t&=E_{t-1}+{\color{green}{E^{(SE)}_{t}}}-{\color{blue}{I^{(EI)}_t}}\\
+I_t&=I_{t-1}+{\color{blue}{I^{(EI)}_t}}-{\color{violet}{R^{(IR)}_t}}\\
+R_t&=R_{t-1}+{\color{violet}{R^{(IR)}_t}}\\
+\end{align*}
+
+## Random Variables
+
+Recall from your introductory statistics class, a *random variable* is a random process with a numerical outcome; usually represented by a capital letter like X, Y, Z. 
+
+Here we are going to be more specific in our notation for each random variable:
+
+- ${\color{green}{E^{(SE)}_{t}}}$: number of newly pre-infectious individuals at time $t$
+- ${\color{blue}{I^{(EI)}_t}}$: number of newly infectious individuals at time $t$
+- ${\color{violet}{R^{(IR)}_t}}$: number of newly recovered individuals at time $t$
+
+**Each random variable follows some probability distribution. What are some probability distributions that we know?**
+
+\vspace{1.5cm}
+
+**Which of these distributions will have integer outcomes?**
+
+\vspace{1.5cm}
+
+\newpage
+
+- ${\color{green}{E^{(SE)}_{t}}} \sim$
+- ${\color{blue}{I^{(EI)}_t}} \sim$
+- ${\color{violet}{R^{(IR)}_t}} \sim$
+
+\newpage
+
+## Example 
+
+Consider an SEIR model with the following:
+
+- $N=50$ (population is 50)
+- $S(0)=49$ (49 people are susceptible to start)
+- $E(0)=0$
+- $I(0)=1$ (1 person is infectious to start)
+- $R(0)=0$
+- $R_0=2$ (the basic reproductive number is 2)
+- $D'=2$ days (the pre-infectious period is 2 days); $\pi=1/D'$
+- $D=2$ days (the infectious period is 2 days); $\rho=1/D$
+- Time=15 days (total number of days we are observing this for purposes of this example)
+
+For the values listed above, follow these steps for $t=1,...,15$:
+
+1. Calculate the risk of infection in the next time interval using $\lambda_t=1-\exp\left\{-c_e\frac{I_{t-1}}{N} \right\}$.
+2. Randomly sample $E^{(SE)}_t \sim Binomial\left(S_{t-1}, \lambda_t \right)$. Update your value for $S_t$. You can use `rbinom(n=1, size=S[t-1], prob=lambda_t)`. Add your point to the plot below.
+3. Randomly sample $I^{(EI)}_t \sim Binomial\left(E_{t-1}, \pi \right)$. Update your value for $E_t$ (you can use `rbinom(n=1, size=E[t-1], prob=pi)`. Add your point to the plot below.
+4. Randomly sample $R^{(IR)}_t \sim Binomial(I_{t-1}, \rho)$. Update your values for $I_t$ and $R_t$, and add the points to your plot below.
+
+Once you are done, add your points to the plots on the blackboard.
+
+```{r fig.align='center', echo=FALSE}
+sim_SEIR <- SEIR_simulation(N=50, E0=0, I0=1, R0=0, R_0=3, pD=2, D=2, Time=15)
+
+ggplot(data=sim_SEIR$df_ggplot, aes(x=time, y=count)) + 
+  # geom_line(aes(color=compartment), size=1.1) +
+  theme_bw() + 
+  xlab("Days") + 
+  ylab("Count") + 
+  scale_colour_discrete(limits = c("S", "E", "I", "R"))
+```
+
