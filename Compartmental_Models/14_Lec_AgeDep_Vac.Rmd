@@ -47,10 +47,10 @@ R[a]_{t}&=R[a]_{t-1}+R^{(IR)}[a]_{t}
 Any births (random variable $B$) will be accounted for at the end of the year, and in this formulation we will not include deaths. Also, first we will assume that there is no vaccination of newborns. Therefore, when $t-1$ is at the end of the year,
 
 \begin{align*}
-S[a]_{t}&=S[a]_{t-1}-E^{(SE)}[a]_{t}\\
-E[a]_{t}&=E[a]_{t-1}+E^{(SE)}[a]_{t}-I^{(EI)}[a]_{t}\\
-I[a]_{t}&=I[a]_{t-1}+I^{(EI)}[a]_{t}-R^{(IR)}[a]_{t}\\
-R[a]_{t}&=R[a]_{t-1}+R^{(IR)}[a]_{t}\\
+S[a]_{t}&=S[a-1]_{t-1}-E^{(SE)}[a-1]_{t}\\
+E[a]_{t}&=E[a-1]_{t-1}+E^{(SE)}[a-1]_{t}-I^{(EI)}[a-1]_{t}\\
+I[a]_{t}&=I[a-1]_{t-1}+I^{(EI)}[a-1]_{t}-R^{(IR)}[a-1]_{t}\\
+R[a]_{t}&=R[a-1]_{t-1}+R^{(IR)}[a-1]_{t}\\
 \end{align*}
 
 which is the same as what we had before, but we also need to add new births for age 0. We will define $B$ as the number of new births (I am omitting $t$ because we are updating annually.) We can assume one of two possible probability distributions for this:
